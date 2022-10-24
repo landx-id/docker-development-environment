@@ -1,0 +1,38 @@
+---
+version: '3'
+services:
+  network:
+    image: busybox
+    hostname: dev-env
+    network_mode: bridge
+    stop_grace_period: 1s
+    stop_signal: SIGKILL
+    command: "cat"
+    stdin_open: true
+    tty: true
+    container_name: dev-env-network
+    ports:
+      - "22222:22"
+  dev:
+    build:
+      context: docker
+      dockerfile: dev.dockerfile
+      args:
+        USERNAME: "${USERNAME}"
+        USERID: "${USERID}"
+    network_mode: service:network
+    container_name: dev-env
+    environment:
+      USERNAME: "${USERNAME}"
+      USERID: "${USERID}"
+    volumes:
+      - /etc/group:/etc/group:ro
+      - "./home:/home/${USERNAME}:cached"
+      - ./docker/dev-env:/opt/dev-env:ro
+      - "./projects:${PWD}/projects:cached"
+      - run:/run
+      - tmp:/tmp
+      - /var/run/docker.sock:/var/run/docker.sock
+volumes:
+  run:
+  tmp:

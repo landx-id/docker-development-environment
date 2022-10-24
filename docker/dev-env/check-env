@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+check_env() {
+	set -e
+	docker ps
+	pipenv
+}
+
+SEPARATOR="-------------------"
+if check_env
+then
+	echo "${SEPARATOR}\nEverything is OK"
+else
+	echo "${SEPARATOR}\nSomething is wrong"
+fi

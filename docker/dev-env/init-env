@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+mkdir -p /run/csp
+chown -R ${USERNAME} /run/csp
+
+DOCKER_GROUP=$(stat -c %G /var/run/docker.sock)
+
+if [ "$DOCKER_GROUP" != "docker" ]
+then
+	chown ${USERNAME} /var/run/docker.sock
+fi
+
+exec /usr/sbin/sshd -D

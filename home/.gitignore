@@ -1,0 +1,9 @@
+.bash_history
+.cache/
+.config/configstore/
+.erlang.cookie
+.gitconfig
+.local/
+.npm/
+.nvm/
+.node-gyp/
