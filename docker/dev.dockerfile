@@ -1,14 +1,18 @@
 FROM --platform=linux/x86_64 ubuntu:jammy
 
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt update -y && \
     apt install -y wget jq software-properties-common \
     git curl apt-transport-https build-essential libpq-dev 
 
 RUN wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
 RUN echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
-    
+
+RUN add-apt-repository ppa:deadsnakes/ppa
+
 RUN apt update -y && \ 
-    apt install -y terraform
+    apt install -y terraform ansible python3.9
 
 WORKDIR /opt/build
 

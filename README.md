@@ -24,6 +24,26 @@ If you want to install something inside container, then you should login as root
 ~$ docker exec -it dev-env /bin/bash
 ```
 
+### Working with NodeJS
+
+NodeJS can be installed with NVM 
+
+```bash
+~$ nvm install 16.14.1
+~$ nvm use 16.14.1
+~$ node --version
+v16.14.1
+```
+
+### Working with Python
+
+Python 3.9 will be installed during Docker Build.
+
+```bash
+~$ python3 --version
+Python 3.9.15
+```
+
 ### Working with Projects
 
 If you want to work with your project, we recommend to place it in `projects` folder. This folder is mounted directly in the container, so you can work using your favorite IDE in your computer host.
