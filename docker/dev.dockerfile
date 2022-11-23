@@ -12,7 +12,9 @@ RUN echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] http
 RUN add-apt-repository ppa:deadsnakes/ppa
 
 RUN apt update -y && \ 
-    apt install -y terraform ansible python3.9
+    apt install -y terraform ansible python3-pip python3-distutils gcc xvfb git curl make
+
+RUN pip install "cryptography==3.3.1"
 
 WORKDIR /opt/build
 
@@ -22,12 +24,18 @@ RUN apt install -y openssh-server \
 COPY sshd_config /etc/ssh/sshd_config
 ENTRYPOINT ["/opt/dev-env/init-env"]
 
+
+# Customize environment
+ARG USERNAME
+ARG USERID
+RUN useradd -m -u ${USERID} --shell /bin/bash ${USERNAME}
+
+# Install poetry
+ENV POETRY_HOME="/home/glend"
+RUN curl -sSL https://install.python-poetry.org | python3
+ENV PATH="/home/${USERNAME}/.local/bin:$PATH"
+
 # NVM
 RUN git clone https://github.com/creationix/nvm.git /opt/nvm \
 	&& cd /opt/nvm \
 	&& git checkout v0.39.2
-
-# Customize environment
-ARG USERNAME=default
-ARG USERID=1000
-RUN useradd -m -u ${USERID} --shell /bin/bash ${USERNAME}

@@ -7,3 +7,9 @@
 .npm/
 .nvm/
 .node-gyp/
+awscliv2.zip
+.bak
+aws/
+.aws/
+.kube/
+.config/
