@@ -9,10 +9,15 @@ RUN apt update -y && \
 RUN wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
 RUN echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
 
+# Python
 RUN add-apt-repository ppa:deadsnakes/ppa
 
+# Install gcloud
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+
 RUN apt update -y && \ 
-    apt install -y terraform ansible python3-pip python3-distutils gcc xvfb git curl make
+    apt install -y terraform ansible python3-pip python3-distutils gcc xvfb git curl make google-cloud-cli
 
 RUN pip install "cryptography==3.3.1"
 
@@ -23,7 +28,6 @@ RUN apt install -y openssh-server \
 	&& mkdir /var/run/sshd
 COPY sshd_config /etc/ssh/sshd_config
 ENTRYPOINT ["/opt/dev-env/init-env"]
-
 
 # Customize environment
 ARG USERNAME
