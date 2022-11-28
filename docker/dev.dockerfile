@@ -17,7 +17,7 @@ RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
 
 RUN apt update -y && \ 
-    apt install -y terraform ansible python3-pip python3-distutils gcc xvfb git curl make google-cloud-cli
+    apt install -y terraform ansible python3-pip python3-distutils gcc xvfb git curl make google-cloud-cli vim
 
 RUN pip install "cryptography==3.3.1"
 
