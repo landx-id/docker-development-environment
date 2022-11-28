@@ -13,3 +13,5 @@ aws/
 .aws/
 .kube/
 .config/
+.terraform.d/
+.DS_Store
